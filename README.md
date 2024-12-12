@@ -1,137 +1,103 @@
-# Projetos 1 - Grupo 4 - Citysafeguard
+# **Citysafeguard: Sistema de Monitoramento de Umidade com Comunicação Bluetooth**
 
-CESAR School - CC e Design 2023.2 - Projetos 1 - Grupo 4
+## 🌟**Introdução**
+O Citysafeguard é um sistema projetado para monitorar os níveis de umidade em edifícios-caixão utilizando sensores de solo. Ele ajuda a identificar riscos de infiltração ou alagamento, alertando moradores e autoridades através de um módulo Bluetooth e um sistema visual com LED RGB.
 
-# Sistema de Monitoramento de Umidade com Comunicação Bluetooth
+---
 
-Este código Arduino foi desenvolvido para monitorar os níveis de umidade em edifícios-caixão usando um sensor de umidade do solo e transmissão dos resultados via Bluetooth. O sistema utiliza um LED RGB para representar visualmente os níveis de umidade e um módulo Bluetooth para transmitir os dados sem fio.
+## 🛠️**Componentes e Ferramentas**
+- **Hardware:**
+  - Placa Arduino
+  - Sensor de umidade do solo (A0)
+  - LED RGB
+  - Módulo Bluetooth (pinos digitais 2 e 4)
+- **Software:**
+  - IDE Arduino
+  - Biblioteca `SoftwareSerial` para comunicação Bluetooth  
 
-## Componentes Utilizados
+---
 
-    Placa Arduino
-    Sensor de umidade do solo (conectado ao pino analógico A0)
-    LED RGB
-    Módulo Bluetooth (conectado aos pinos digitais 2 e 4)
-  
-## Bibliotecas
+## 🔌**Conexões e Configuração** 
+| Componente        | Pino Arduino       |  
+|--------------------|--------------------|  
+| Sensor de Umidade | A0                 |  
+| Módulo Bluetooth  | RX -> 4, TX -> 2   |  
+| LED RGB           | Pinos digitais (configurar no código) |
 
-    SoftwareSerial: Esta biblioteca permite a comunicação com o módulo Bluetooth usando comunicação serial definida por software.
+**Nota:** Verifique a polaridade e siga as especificações dos fabricantes.
 
-## Conexões
+---
 
-    Conecte o sensor de umidade do solo ao pino analógico A0 no Arduino.
-    Conecte o módulo Bluetooth aos pinos digitais 2 (RX) e 4 (TX) no Arduino.
-    Certifique-se de que o LED RGB está conectado adequadamente.
+## ⚙️**Funcionamento do Sistema** 
+O sistema monitora a umidade do solo em tempo real e realiza:  
+- Transmissão das leituras via Bluetooth.  
+- Indicação visual de níveis de umidade com um LED RGB:  
+  - Vermelho: Umidade crítica (PERIGO).  
+  - Amarelo: Alerta (Atenção).  
+  - Verde: Nível seguro (Pouco Úmido).  
 
-## Explicação do Código
+---
 
-### Inicialização de Variáveis
+## 🖥️**Estrutura do Código** 
 
-    cpp
-    Copy code
-    SoftwareSerial bluetooth(4, 2); // TX, RX Módulo Bluetooth
-    const moisture(A0);
-    
-Define um objeto serial de software chamado "bluetooth" para a comunicação com o módulo Bluetooth e configura o sensor de umidade do solo no pino analógico A0.
+```cpp
+#include <SoftwareSerial.h>
 
-### Função de Configuração
+SoftwareSerial bluetooth(4, 2); // TX, RX para comunicação Bluetooth
+const int moisturePin = A0;     // Pino do sensor de umidade
 
-    cpp
-    Copy code
-    void setup()
-    {
-      Serial.begin(9600);
-      bluetooth.begin(9600);
-    }
-    
-Inicializa a comunicação serial com a placa Arduino e o módulo Bluetooth.
+void setup() {
+  Serial.begin(9600);
+  bluetooth.begin(9600);
+}
 
-### Função de Loop
+void loop() {
+  int moisture = analogRead(moisturePin);  // Leitura do sensor
 
-    cpp
-    Copy code
-    void loop()
-    {
-      int moisture = 0;
-      moisture = analogRead(A0);
-      
-      delay(100);
-      
-Lê o nível de umidade do solo a partir do sensor e introduz um atraso para estabilidade.
+  if (moisture < 200) {
+    bluetooth.print("PERIGO Subito! ");
+  } else if (moisture < 400) {
+    bluetooth.print("PERIGO! ");
+  } else if (moisture < 600) {
+    bluetooth.print("Atenção! ");
+  } else if (moisture < 800) {
+    bluetooth.print("Pouco Úmido: ");
+  } else {
+    bluetooth.print("Seco: ");
+  }
+  bluetooth.println(moisture);
+  delay(100); // Estabiliza a leitura
+}
+```
 
-    cpp
-    Copy code
-      // Define o LED RGB com base na leitura de umidade
-      if (moisture < 200) {
-        bluetooth.print("PERIGO Subito! ");
-        bluetooth.println(moisture);
-      } else if (moisture < 400) {
-        bluetooth.print("PERIGO! ");
-        bluetooth.println(moisture);
-      } else if (moisture < 600) {
-        bluetooth.print("Atenção! ");
-        bluetooth.println(moisture);
-      } else if (moisture < 800) {
-        bluetooth.print("Pouco Úmido: ");
-        bluetooth.println(moisture);
-      } else {
-        bluetooth.print("Seco: ");
-        bluetooth.println(moisture);
-      }
-    }
-    
-## Instruções de uso
-Coordenar um sensor de umidade do solo envolve monitorar, interpretar e, se necessário, agir com base nas leituras do sensor para garantir condições adequadas de umidade para as plantas. Aqui estão as instruções necessárias sobre como operar um sensor de umidade:
+---
 
-### 1. Instalação Física
-Posicione o sensor de umidade no solo da sua planta, certificando-se de que as partes sensíveis estejam totalmente enterradas.
-Evite posicionar o sensor perto de áreas que possam acumular água, pois isso pode afetar as leituras.
+## 📋**Instruções de Uso** 
+### 1. 🛠️Instalação Física 
+- Posicione o sensor de umidade no local desejado, certificando-se de que as partes sensíveis estejam totalmente enterradas.
+- Evite áreas que possam acumular água em excesso.
 
-### 2. Conexão ao Arduino
-Conecte o sensor de umidade ao pino analógico A0 do Arduino.
-Conecte outros componentes, como módulo Bluetooth ou LED RGB, se estiver usando.
+### 2. 🔗Conexão ao Arduino 
+- Conecte o sensor de umidade ao pino analógico A0.
+- Conecte o módulo Bluetooth e o LED RGB conforme especificado na seção de conexões.
 
-### 3. Carregando o Código
-Utilize o código fornecido ou crie o seu próprio para ler as leituras do sensor e tomar ações com base nelas.
-Certifique-se de ajustar os limiares de umidade no código de acordo com as necessidades das suas plantas.
+### 3. 🚀Carregando o Código 
+- Carregue o código no Arduino utilizando o IDE Arduino.
+- Ajuste os limiares de umidade no código, se necessário.
 
-### 4. Monitoramento Contínuo
-Mantenha o Arduino alimentado para garantir a coleta contínua de dados.
-Utilize o Monitor Serial no Arduino IDE para monitorar as leituras do sensor.
+### 4. 📡Monitoramento Contínuo 
+- Utilize o Monitor Serial ou um dispositivo Bluetooth para visualizar os dados.
+- Observe o LED RGB para uma indicação visual dos níveis de umidade.
 
-### 5. Interpretação das Leituras
-Com base nas leituras do sensor, interprete os níveis de umidade no solo.
-Personalize as condições de interpretação de acordo com as necessidades específicas das suas plantas.
+### 5. 🧰Manutenção 
+- Verifique regularmente o funcionamento do sensor e dos componentes.
+- Substitua baterias e calibres conforme necessário.
 
-### 6. Feedback Visual ou Remoto (Opcional)
-Se estiver utilizando um LED RGB, observe a mudança de cor para uma representação visual dos níveis de umidade.
-Se conectado a um módulo Bluetooth, monitore as leituras remotamente em um dispositivo pareado.
+---
 
-### 7. Tomada de Decisões
-Estabeleça ações com base nas leituras. O monitoramento da umidade será contínuo para manter o arquivo dos dados e acompanhar possíveis evoluções do risco. Mesmo assim, as seguintes tomadas de decisões podem ser feitas: 
-- Baixa umidade: Baixo risco. Manter alimentação do banco de dados de monitoramento de risco, sem mais ações. 
-- Leve aumento da umidade: Médio risco. Envio de alerta a autoridades.
-- Umidade Elevada: Envio de alerta a autoridades e alerta a moradores.
+## 👥**Equipe** 
+**Ciências da Computação:**  
+- Bernardo Heuer, Igor Cubits, Kauane Melo, Lucas Sukar, Marcelo Henrique, Maria Fernanda Ordonho, Thais Aguiar, Vinícius Diniz  
 
-### 8. Ajustes e Calibração
-Faça ajustes no código, se necessário, com base em observações contínuas.
-Calibre o sensor conforme necessário para garantir leituras precisas.
-
-### 9. Manutenção
-Verifique regularmente o funcionamento do sensor e dos componentes relacionados.
-Substitua a bateria, se aplicável, e resolva quaisquer problemas identificados.
-Lembre-se de que a coordenação eficaz envolve entender as necessidades específicas das suas plantas, ajustar os parâmetros conforme necessário e estar atento às condições do solo ao longo do tempo.
-### Equipe:
-Ciências da Computação:<br>
-1-Vinícius Diniz,<br>
-2-Kauane Melo,<br>
-3-Thais Aguiar,<br>
-4-Igor Cubits,<br>
-5-Maria Fernanda Ordonho,<br>
-6-Lucas Sukar,<br>
-7-Bernardo Heuer,<br>
-8-Marcelo Henrique<br>
-Design:<br>
-9-Sophia Latache<br>
-10-Maria Eduarda Ximenes<br>
-11-Lucca Martins
+**Design:**  
+- Lucca Martins, Maria Eduarda Ximenes, Sophia Latache
