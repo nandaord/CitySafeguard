@@ -55,15 +55,15 @@ void loop() {
   int moisture = analogRead(moisturePin);  // Leitura do sensor
 
   if (moisture < 200) {
-    bluetooth.print("PERIGO Subito! ");
+    bluetooth.print("PERIGO SÚBITO! ");
   } else if (moisture < 400) {
     bluetooth.print("PERIGO! ");
   } else if (moisture < 600) {
-    bluetooth.print("Atenção! ");
+    bluetooth.print("ATENÇÃO! ");
   } else if (moisture < 800) {
-    bluetooth.print("Pouco Úmido: ");
+    bluetooth.print("UMIDADE BAIXA: ");
   } else {
-    bluetooth.print("Seco: ");
+    bluetooth.print("SECO: ");
   }
   bluetooth.println(moisture);
   delay(100); // Estabiliza a leitura
