@@ -97,7 +97,7 @@ void loop() {
 
 ## 👥**Equipe** 
 **Ciências da Computação:**  
-- Bernardo Heuer, Igor Cubits, Kauane Melo, Lucas Sukar, Marcelo Henrique, Maria Fernanda Ordonho, Thais Aguiar, Vinícius Diniz  
+- Bernardo Heuer, Igor Cubits, Kauane Melo, Lucas Sukar, Marcelo Henrique, Maria Fernanda Ordonho, Thais Aguiar e Vinícius Diniz  
 
 **Design:**  
-- Lucca Martins, Maria Eduarda Ximenes, Sophia Latache
+- Lucca Martins, Maria Eduarda Ximenes e Sophia Latache
