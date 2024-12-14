@@ -1,7 +1,7 @@
 # **Citysafeguard: Sistema de Monitoramento de Umidade com Comunicação Bluetooth**
 
 ## 🌟**Introdução**
-O Citysafeguard é um sistema projetado para monitorar os níveis de umidade em prédios-caixão utilizando sensores de solo. Ele ajuda a identificar riscos de infiltração ou alagamento, alertando moradores e autoridades através de um módulo Bluetooth.
+O Citysafeguard é um sistema projetado para monitorar os níveis de umidade em edifícios-caixão utilizando sensores de solo. Ele ajuda a identificar riscos de infiltração ou alagamento, alertando moradores e autoridades através de um módulo Bluetooth e um sistema visual com LED RGB.
 
 ---
 
